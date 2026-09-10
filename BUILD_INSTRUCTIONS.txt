@@ -1,0 +1,1 @@
+Requires Gradle 8.x/compatible ForgeGradle environment and Java 21. Use the official Forge 1.21.11-61.1.5 MDK as the authoritative dependency source.

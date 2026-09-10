@@ -1,0 +1,10 @@
+modLoader="javafml"
+loaderVersion="[61.1,)"
+license="MIT"
+
+[[mods]]
+modId="realisticworld"
+version="1.0.0"
+displayName="Realistic World Generation"
+authors="Danya"
+description='''Layered procedural terrain generation prototype: continents, domain warping, mountains, valleys, climate-aware terrain and caves.'''

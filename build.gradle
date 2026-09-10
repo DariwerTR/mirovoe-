@@ -1,0 +1,36 @@
+plugins {
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'eclipse'
+    id 'maven-publish'
+}
+
+group = 'com.danya'
+version = '1.0.0'
+base { archivesName = 'realisticworld' }
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+minecraft {
+    mappings channel: 'official', version: '1.21.11'
+    copyIdeResources = true
+    runs {
+        client {
+            workingDirectory project.file('run')
+            mods { realisticworld { source sourceSets.main } }
+        }
+        server {
+            workingDirectory project.file('run')
+            mods { realisticworld { source sourceSets.main } }
+        }
+    }
+}
+
+repositories { }
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.21.11-61.1.5'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
