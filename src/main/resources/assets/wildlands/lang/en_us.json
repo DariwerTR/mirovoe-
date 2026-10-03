@@ -1,3 +1,7 @@
 {
-  "generator.wildlands.wildlands": "Wildlands"
+  "generator.wildlands.wildlands": "Wildlands",
+  "biome.wildlands.mixed_forest": "Mixed Forest",
+  "biome.wildlands.birch_grove": "Birch Grove",
+  "biome.wildlands.old_dark_forest": "Ancient Dark Forest",
+  "biome.wildlands.spruce_forest": "Spruce Forest"
 }

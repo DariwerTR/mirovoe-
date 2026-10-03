@@ -1,3 +1,7 @@
 {
-  "generator.wildlands.wildlands": "Wildlands"
+  "generator.wildlands.wildlands": "Wildlands",
+  "biome.wildlands.mixed_forest": "Смешанный лес",
+  "biome.wildlands.birch_grove": "Берёзовая роща",
+  "biome.wildlands.old_dark_forest": "Древний тёмный лес",
+  "biome.wildlands.spruce_forest": "Еловый лес"
 }
