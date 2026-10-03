@@ -1,0 +1,62 @@
+// Wildlands: Minecraft Forge mod (Minecraft 1.21.11, Forge 61.1.5).
+// Структура сверена с официальным MDK Forge для 1.21.11 (ForgeGradle 7).
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'net.minecraftforge.gradle' version '[7.0.3,8)'
+}
+
+version = '0.1.0'
+group = 'com.wildlands'
+
+base.archivesName = 'wildlands'
+
+// Minecraft 1.20.5+ работает на Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+// Подключаем сгенерированные ресурсы (data generators, если понадобятся позже).
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+minecraft {
+    mappings channel: 'official', version: '1.21.11'
+
+    runs {
+        configureEach {
+            workingDir = layout.projectDirectory.dir('run')
+
+            systemProperty 'eventbus.api.strictRuntimeChecks', 'true'
+            systemProperty 'forge.enabledGameTestNamespaces', 'wildlands'
+        }
+
+        register('client')
+
+        register('server') {
+            args '--nogui'
+        }
+
+        register('gameTestServer')
+
+        register('data') {
+            workingDir = layout.projectDirectory.dir('run-data')
+
+            args '--mod', 'wildlands', '--all', '--output', layout.projectDirectory.dir('src/generated/resources'), '--existing', layout.projectDirectory.dir('src/main/resources')
+        }
+    }
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+
+dependencies {
+    implementation minecraft.dependency('net.minecraftforge:forge:1.21.11-61.1.5')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
