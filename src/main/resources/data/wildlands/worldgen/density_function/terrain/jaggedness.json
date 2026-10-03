@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:mul",
+  "argument1": 1.3,
+  "argument2": "minecraft:overworld_large_biomes/jaggedness"
+}
