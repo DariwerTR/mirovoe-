@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "wildlands:block/spruce_log"
+    },
+    "axis=z": {
+      "model": "wildlands:block/spruce_log",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "wildlands:block/spruce_log",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

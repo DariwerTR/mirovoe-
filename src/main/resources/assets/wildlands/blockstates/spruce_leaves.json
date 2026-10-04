@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "persistent=true": {
+      "model": "wildlands:block/spruce_leaves"
+    },
+    "persistent=false": {
+      "model": "wildlands:block/spruce_leaves"
+    }
+  }
+}

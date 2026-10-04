@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "wildlands:oak_leaves",
+    "wildlands:birch_leaves",
+    "wildlands:spruce_leaves"
+  ]
+}

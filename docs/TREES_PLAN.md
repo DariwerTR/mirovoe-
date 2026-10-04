@@ -12,7 +12,8 @@
 |---|---|
 | T0. Решения и референсы | сделано: референсы в [REFERENCES.md](REFERENCES.md), по умолчанию дуб, берёза, ель, текстуры 16x16, обычные брёвна |
 | T1. Каркас движка | код написан: форма деревьев проверена предпросмотром, подключение к игре ждёт первой сборки |
-| T2-T8 | впереди |
+| T2-T4 (v2) | код написан, ждёт первой сборки: генератор v2 (pipe model + space colonization), блоки бревно/ветвь/листва, текстуры 32x32, `docs/TREES_V2.md` |
+| T5-T8 | впереди |
 
 Что проверено и что нет:
 - **Проверено:** алгоритм формы (`com.wildlands.tree`) компилируется и строит деревья; картинки предпросмотра получены командой из `tools/preview/Preview.java`.
@@ -154,3 +155,15 @@ Minecraft строится из блоков, поэтому «как в жиз�
 - `/place feature wildlands:<вид>` на ровном месте, скриншот с трёх сторон.
 - F3 на ходу по лесу: FPS и название биома.
 - Пришлите скриншоты и `logs/latest.log`, если игра выдала ошибку.
+
+## Деревья v2 (новое)
+
+Проверить в игре после сборки:
+`/place feature wildlands:wild/oak` (или `birch`, `spruce`) на траве.
+Предметы: `/give @s wildlands:oak_log`, `wildlands:oak_branch`, `wildlands:oak_leaves` (и birch, spruce).
+Картинки предпросмотра: `javac -d build/preview src/main/java/com/wildlands/tree/*.java tools/preview/Preview2.java`
+и `java -Djava.awt.headless=true -cp build/preview Preview2 build/preview/png`.
+Ресурсы пересоздаются командой `python3 tools/assets/gen_tree_assets.py`.
+
+Известные ограничения v2: листва пока непрозрачный куб (без вырезов), цвет без тонировки по биому,
+связи ветвей не обновляются при поломке соседей, в биомы новые деревья ещё не подключены (T7).

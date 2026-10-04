@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "wildlands:block/oak_log_top",
+    "side": "wildlands:block/oak_bark"
+  }
+}

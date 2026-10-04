@@ -28,7 +28,8 @@
       "minecraft:lake_lava_surface"
     ],
     [
-      "minecraft:amethyst_geode"
+      "minecraft:amethyst_geode",
+      "wildlands:boulders_dark"
     ],
     [
       "minecraft:monster_room",
@@ -74,7 +75,7 @@
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:dark_forest_vegetation",
+      "wildlands:trees_ancient_dark_forest",
       "minecraft:forest_flowers",
       "minecraft:flower_default",
       "minecraft:patch_grass_forest",
@@ -83,7 +84,8 @@
       "minecraft:patch_leaf_litter",
       "minecraft:patch_pumpkin",
       "minecraft:patch_sugar_cane",
-      "minecraft:patch_firefly_bush_near_water"
+      "minecraft:patch_firefly_bush_near_water",
+      "wildlands:ferns_dark"
     ],
     [
       "minecraft:freeze_top_layer"

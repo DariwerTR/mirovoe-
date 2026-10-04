@@ -3,6 +3,8 @@ package com.wildlands.registry;
 import com.wildlands.Wildlands;
 import com.wildlands.worldgen.feature.RealisticTreeConfig;
 import com.wildlands.worldgen.feature.RealisticTreeFeature;
+import com.wildlands.worldgen.feature.WildTreeConfig;
+import com.wildlands.worldgen.feature.WildTreeFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,6 +18,9 @@ public final class ModFeatures {
 
     public static final RegistryObject<RealisticTreeFeature> REALISTIC_TREE =
             FEATURES.register("realistic_tree", () -> new RealisticTreeFeature(RealisticTreeConfig.CODEC));
+
+    public static final RegistryObject<WildTreeFeature> WILD_TREE =
+            FEATURES.register("wild_tree", () -> new WildTreeFeature(WildTreeConfig.CODEC));
 
     private ModFeatures() {
     }

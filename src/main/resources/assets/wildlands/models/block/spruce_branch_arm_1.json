@@ -1,0 +1,69 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "bark": "wildlands:block/spruce_bark",
+    "particle": "#bark"
+  },
+  "elements": [
+    {
+      "from": [
+        7,
+        7,
+        0
+      ],
+      "to": [
+        9,
+        9,
+        7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            7,
+            7,
+            9,
+            9
+          ],
+          "texture": "#bark",
+          "cullface": "north"
+        },
+        "up": {
+          "uv": [
+            7,
+            0,
+            9,
+            7
+          ],
+          "texture": "#bark"
+        },
+        "down": {
+          "uv": [
+            7,
+            0,
+            9,
+            7
+          ],
+          "texture": "#bark"
+        },
+        "east": {
+          "uv": [
+            0,
+            7,
+            7,
+            9
+          ],
+          "texture": "#bark"
+        },
+        "west": {
+          "uv": [
+            0,
+            7,
+            7,
+            9
+          ],
+          "texture": "#bark"
+        }
+      }
+    }
+  ]
+}

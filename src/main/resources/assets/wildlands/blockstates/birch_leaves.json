@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "persistent=true": {
+      "model": "wildlands:block/birch_leaves"
+    },
+    "persistent=false": {
+      "model": "wildlands:block/birch_leaves"
+    }
+  }
+}

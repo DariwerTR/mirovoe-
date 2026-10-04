@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "wildlands:oak_log",
+    "wildlands:birch_log",
+    "wildlands:spruce_log",
+    "wildlands:oak_branch",
+    "wildlands:birch_branch",
+    "wildlands:spruce_branch"
+  ]
+}

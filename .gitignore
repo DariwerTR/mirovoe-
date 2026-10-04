@@ -1,0 +1,22 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Запуск игры и генерация данных
+run/
+run-data/
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+bin/
+out/
+.vscode/
+
+# Системное
+.DS_Store
+Thumbs.db

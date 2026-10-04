@@ -1,0 +1,64 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": "minecraft:oak_bees_0002_leaf_litter",
+    "features": [
+      {
+        "chance": 0.0025,
+        "feature": "minecraft:fallen_birch_tree"
+      },
+      {
+        "chance": 0.0125,
+        "feature": "minecraft:fallen_oak_tree"
+      },
+      {
+        "chance": 0.15,
+        "feature": "minecraft:birch_bees_0002_leaf_litter"
+      },
+      {
+        "chance": 0.08,
+        "feature": "minecraft:fancy_oak_bees_0002_leaf_litter"
+      },
+      {
+        "chance": 0.2,
+        "feature": {
+          "feature": "wildlands:tree/tall_oak",
+          "placement": [
+            {
+              "type": "minecraft:block_predicate_filter",
+              "predicate": {
+                "type": "minecraft:would_survive",
+                "state": {
+                  "Name": "minecraft:oak_sapling",
+                  "Properties": {
+                    "stage": "0"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "chance": 0.1,
+        "feature": {
+          "feature": "wildlands:tree/gnarled_oak",
+          "placement": [
+            {
+              "type": "minecraft:block_predicate_filter",
+              "predicate": {
+                "type": "minecraft:would_survive",
+                "state": {
+                  "Name": "minecraft:oak_sapling",
+                  "Properties": {
+                    "stage": "0"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

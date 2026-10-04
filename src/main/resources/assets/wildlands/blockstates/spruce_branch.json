@@ -1,0 +1,725 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "thickness": "1"
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_core_1"
+      }
+    },
+    {
+      "when": {
+        "thickness": "2"
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_core_2"
+      }
+    },
+    {
+      "when": {
+        "thickness": "3"
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_core_3"
+      }
+    },
+    {
+      "when": {
+        "thickness": "4"
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_core_4"
+      }
+    },
+    {
+      "when": {
+        "thickness": "5"
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_core_5"
+      }
+    },
+    {
+      "when": {
+        "thickness": "6"
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_core_6"
+      }
+    },
+    {
+      "when": {
+        "thickness": "7"
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_core_7"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "1"
+          },
+          {
+            "north": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_1"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "1"
+          },
+          {
+            "east": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_1",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "1"
+          },
+          {
+            "south": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_1",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "1"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_1",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "1"
+          },
+          {
+            "up": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_1",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "1"
+          },
+          {
+            "down": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_1",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "2"
+          },
+          {
+            "north": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_2"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "2"
+          },
+          {
+            "east": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_2",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "2"
+          },
+          {
+            "south": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_2",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "2"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_2",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "2"
+          },
+          {
+            "up": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_2",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "2"
+          },
+          {
+            "down": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_2",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "3"
+          },
+          {
+            "north": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_3"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "3"
+          },
+          {
+            "east": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_3",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "3"
+          },
+          {
+            "south": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_3",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "3"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_3",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "3"
+          },
+          {
+            "up": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_3",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "3"
+          },
+          {
+            "down": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_3",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "4"
+          },
+          {
+            "north": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_4"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "4"
+          },
+          {
+            "east": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_4",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "4"
+          },
+          {
+            "south": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_4",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "4"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_4",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "4"
+          },
+          {
+            "up": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_4",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "4"
+          },
+          {
+            "down": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_4",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "5"
+          },
+          {
+            "north": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_5"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "5"
+          },
+          {
+            "east": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_5",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "5"
+          },
+          {
+            "south": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_5",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "5"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_5",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "5"
+          },
+          {
+            "up": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_5",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "5"
+          },
+          {
+            "down": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_5",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "6"
+          },
+          {
+            "north": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_6"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "6"
+          },
+          {
+            "east": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_6",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "6"
+          },
+          {
+            "south": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_6",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "6"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_6",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "6"
+          },
+          {
+            "up": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_6",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "6"
+          },
+          {
+            "down": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_6",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "7"
+          },
+          {
+            "north": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_7"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "7"
+          },
+          {
+            "east": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_7",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "7"
+          },
+          {
+            "south": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_7",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "7"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_7",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "7"
+          },
+          {
+            "up": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_7",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "thickness": "7"
+          },
+          {
+            "down": "true"
+          }
+        ]
+      },
+      "apply": {
+        "model": "wildlands:block/spruce_branch_arm_7",
+        "x": 90
+      }
+    }
+  ]
+}
