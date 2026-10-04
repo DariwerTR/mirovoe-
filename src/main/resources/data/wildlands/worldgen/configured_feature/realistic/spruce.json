@@ -1,0 +1,22 @@
+{
+  "type": "wildlands:realistic_tree",
+  "config": {
+    "species": "spruce",
+    "log": {
+      "Name": "minecraft:spruce_log",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "leaves": {
+      "Name": "minecraft:spruce_leaves",
+      "Properties": {
+        "distance": "7",
+        "persistent": "false",
+        "waterlogged": "false"
+      }
+    },
+    "min_height": 20,
+    "max_height": 34
+  }
+}

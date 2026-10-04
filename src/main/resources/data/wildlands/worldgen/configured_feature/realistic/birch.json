@@ -1,0 +1,22 @@
+{
+  "type": "wildlands:realistic_tree",
+  "config": {
+    "species": "birch",
+    "log": {
+      "Name": "minecraft:birch_log",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "leaves": {
+      "Name": "minecraft:birch_leaves",
+      "Properties": {
+        "distance": "7",
+        "persistent": "false",
+        "waterlogged": "false"
+      }
+    },
+    "min_height": 12,
+    "max_height": 20
+  }
+}

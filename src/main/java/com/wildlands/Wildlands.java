@@ -1,16 +1,18 @@
 package com.wildlands;
 
+import com.wildlands.registry.ModFeatures;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
- * Точка входа мода. На этапе 0 здесь нет никакой логики:
- * цель этапа только в том, чтобы проект собирался и мод загружался.
- * Регистрации и обработчики событий добавляются в следующих этапах (см. ROADMAP.md).
+ * Точка входа мода. Здесь только подключение регистраций;
+ * вся логика живёт в пакетах registry, worldgen, tree (см. ROADMAP.md).
  */
 @Mod(Wildlands.MOD_ID)
 public class Wildlands {
     public static final String MOD_ID = "wildlands";
 
-    public Wildlands() {
+    public Wildlands(FMLJavaModLoadingContext context) {
+        ModFeatures.FEATURES.register(context.getModBusGroup());
     }
 }

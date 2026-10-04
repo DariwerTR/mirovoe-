@@ -1,0 +1,22 @@
+{
+  "type": "wildlands:realistic_tree",
+  "config": {
+    "species": "oak",
+    "log": {
+      "Name": "minecraft:oak_log",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "leaves": {
+      "Name": "minecraft:oak_leaves",
+      "Properties": {
+        "distance": "7",
+        "persistent": "false",
+        "waterlogged": "false"
+      }
+    },
+    "min_height": 14,
+    "max_height": 24
+  }
+}
