@@ -1,0 +1,8 @@
+{
+  "type": "wildlands:wild_tree",
+  "config": {
+    "species": "birch",
+    "min_height": 10,
+    "max_height": 17
+  }
+}

@@ -56,9 +56,22 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
             }
         }
 
+        // стволы не ставим вплотную друг к другу: естественный разброс деревьев
+        for (int dx = -2; dx <= 2; dx++) {
+            for (int dz = -2; dz <= 2; dz++) {
+                for (int dy = 1; dy <= 3; dy++) {
+                    pos.set(origin.getX() + dx, origin.getY() + dy, origin.getZ() + dz);
+                    if (level.getBlockState(pos).is(BlockTags.LOGS)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
         int lo = Math.min(config.minHeight(), config.maxHeight());
         int hi = Math.max(config.minHeight(), config.maxHeight());
-        int height = lo + random.nextInt(hi - lo + 1);
+        // больше молодых и средних деревьев, меньше великанов
+        int height = Math.min(hi, lo + (int) ((hi - lo + 1) * Math.pow(random.nextFloat(), 1.5)));
 
         TreeModel model = TreeBuilder.generate(species, height, random.nextLong());
         List<TreeModel.Voxel> voxels = model.voxels();

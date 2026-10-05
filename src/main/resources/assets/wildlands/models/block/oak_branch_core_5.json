@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "bark": "wildlands:block/oak_bark",
+    "bark": "minecraft:block/oak_log",
     "particle": "#bark"
   },
   "elements": [
