@@ -84,6 +84,21 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
                 }
             }
         }
+        // корни: всё, что у основания висит над пустотой, продлеваем вниз до земли
+        BlockState rootState = log.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
+        BlockPos.MutableBlockPos below = new BlockPos.MutableBlockPos();
+        for (TreeModel.Voxel v : voxels) {
+            if (v.wood() && v.y() <= 3) {
+                int x = origin.getX() + v.x(), z = origin.getZ() + v.z();
+                for (int depth = 1; depth <= 14; depth++) {
+                    below.set(x, origin.getY() + v.y() - depth, z);
+                    if (!isFree(level, below)) {
+                        break;
+                    }
+                    level.setBlock(below, rootState, FLAGS);
+                }
+            }
+        }
         BlockState leafState = leaves.defaultBlockState().setValue(WoodLeavesBlock.PERSISTENT, false);
         for (TreeModel.Voxel v : voxels) {
             if (!v.wood()) {
