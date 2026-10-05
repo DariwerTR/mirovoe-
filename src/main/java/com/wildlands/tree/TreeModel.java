@@ -109,6 +109,53 @@ public final class TreeModel {
         }
     }
 
+    /**
+     * Убирает висящие тонкие веточки без листвы рядом (тупики), чтобы из кроны не торчали голые прутья.
+     * Вызывается до finish().
+     */
+    void trimTwigs(int maxCls, int passes) {
+        for (int p = 0; p < passes; p++) {
+            List<Long> drop = new ArrayList<>();
+            for (Map.Entry<Long, Integer> e : wood.entrySet()) {
+                if ((e.getValue() >> 2) > maxCls) {
+                    continue;
+                }
+                long k = e.getKey();
+                int x = kx(k), y = ky(k), z = kz(k);
+                if (x == 0 && y == 0 && z == 0) {
+                    continue;
+                }
+                int neighbours = 0;
+                for (int[] o : DIRS) {
+                    if (wood.containsKey(key(x + o[0], y + o[1], z + o[2]))) {
+                        neighbours++;
+                    }
+                }
+                if (neighbours > 1) {
+                    continue;
+                }
+                boolean leafNear = false;
+                for (int dx = -1; dx <= 1 && !leafNear; dx++) {
+                    for (int dy = -1; dy <= 1 && !leafNear; dy++) {
+                        for (int dz = -1; dz <= 1; dz++) {
+                            if (leaves.containsKey(key(x + dx, y + dy, z + dz))) {
+                                leafNear = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!leafNear) {
+                    drop.add(k);
+                }
+            }
+            if (drop.isEmpty()) {
+                break;
+            }
+            wood.keySet().removeAll(drop);
+        }
+    }
+
     /** Оставляет только древесину, связанную гранями со стволом у основания (0, 0, 0). */
     private void pruneDisconnectedWood() {
         long root = key(0, 0, 0);

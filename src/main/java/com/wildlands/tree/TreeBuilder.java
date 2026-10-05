@@ -66,6 +66,7 @@ public final class TreeBuilder {
         b.computeRadii();
         b.rasterize();
         b.leaves(species);
+        b.model.trimTwigs(4, 8);
         b.model.finish(MAX_RADIUS, 0, height + 6);
         return b.model;
     }
@@ -76,16 +77,16 @@ public final class TreeBuilder {
         double h = height;
         double base = 0.27 * h + rnd.nextDouble() * 0.04 * h;
         crownR = Math.min(10.0, 0.55 * h);
-        hollow = 0.45;
+        hollow = 0.10;
         trunkRadius = 0.043 * h + 0.1;
-        leafR = 2.5;
-        leafFlat = 0.6;
-        leafDensity = 0.88;
+        leafR = 3.0;
+        leafFlat = 0.7;
+        leafDensity = 0.97;
         leafTwigRadius = 0.22;
         trunk(h * (0.80 + rnd.nextDouble() * 0.1), 0.5, 0.18);
         limbs(5 + rnd.nextInt(3), base * 0.8, h * 0.66, 32, 58, crownR * 0.8, crownR * 1.15, 0.05);
         double cy = base + (h - base) * 0.5;
-        spaceColonization(cy, (h - base) * 0.52, crownR, 280, 4.8, 2.0, 0.05, 1.1);
+        spaceColonization(cy, (h - base) * 0.52, crownR, 340, 4.4, 1.5, 0.05, 1.0);
     }
 
     private void birch() {
@@ -94,9 +95,9 @@ public final class TreeBuilder {
         crownR = Math.min(6.0, 0.30 * h);
         hollow = 0.12;
         trunkRadius = 0.024 * h + 0.08;
-        leafR = 2.5;
-        leafFlat = 0.8;
-        leafDensity = 0.8;
+        leafR = 2.9;
+        leafFlat = 0.85;
+        leafDensity = 0.97;
         leafTwigRadius = 0.12;
         trunk(h * (0.9 + rnd.nextDouble() * 0.06), 0.9, 0.5);
         limbs(6 + rnd.nextInt(3), base, h * 0.8, 24, 46, crownR * 0.7, crownR * 1.1, 0.03);
@@ -432,10 +433,10 @@ public final class TreeBuilder {
             }
             // низкочастотный шум вырезает просветы между кластерами
             double lobe = Math.sin(n.x * 0.9 + n.y * 0.5) * Math.cos(n.z * 0.8 - n.y * 0.7);
-            if (hollow > 0 && lobe < -0.85) {
+            if (hollow > 0 && lobe < -2.0) {
                 continue;
             }
-            if (!tip && rnd.nextDouble() > (sp == Species.SPRUCE ? 0.8 : leafDensity * 0.15)) {
+            if (!tip && rnd.nextDouble() > (sp == Species.SPRUCE ? 0.8 : leafDensity * 0.8)) {
                 continue;
             }
             double cyOff = sp == Species.SPRUCE ? -0.5 : 0.1;
@@ -476,7 +477,7 @@ public final class TreeBuilder {
                     double dx = vx + 0.5 - cx, dy = (vy + 0.5 - cy) / leafFlat, dz = vz + 0.5 - cz;
                     double d = Math.sqrt(dx * dx + dy * dy + dz * dz) / rad;
                     double noise = rnd.nextDouble() * 0.55;
-                    if (d + noise < 1.0 && rnd.nextDouble() < leafDensity + 0.2) {
+                    if (d + noise < 1.0 && rnd.nextDouble() < leafDensity + 0.1) {
                         model.setLeaf(vx, vy, vz);
                     }
                 }
