@@ -2,7 +2,6 @@ package com.wildlands.worldgen.feature;
 
 import com.mojang.serialization.Codec;
 import com.wildlands.block.BranchBlock;
-import com.wildlands.block.WoodLeavesBlock;
 import com.wildlands.registry.ModBlocks;
 import com.wildlands.tree.TreeBuilder;
 import com.wildlands.tree.TreeModel;
@@ -13,7 +12,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -43,7 +44,12 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
         String sp = config.species();
         Block log = ModBlocks.LOG.get(sp).get();
         BranchBlock branch = (BranchBlock) ModBlocks.BRANCH.get(sp).get();
-        Block leaves = ModBlocks.LEAVES.get(sp).get();
+        // листва ванильная: прозрачная, с цветом биома и штатным опаданием
+        Block leaves = switch (sp) {
+            case "birch" -> Blocks.BIRCH_LEAVES;
+            case "spruce" -> Blocks.SPRUCE_LEAVES;
+            default -> Blocks.OAK_LEAVES;
+        };
 
         if (!level.getBlockState(origin.below()).is(BlockTags.DIRT)) {
             return false;
@@ -99,12 +105,13 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
                 }
             }
         }
-        BlockState leafState = leaves.defaultBlockState().setValue(WoodLeavesBlock.PERSISTENT, false);
+        BlockState leafBase = leaves.defaultBlockState().setValue(BlockStateProperties.PERSISTENT, false);
         for (TreeModel.Voxel v : voxels) {
             if (!v.wood()) {
                 pos.set(origin.getX() + v.x(), origin.getY() + v.y(), origin.getZ() + v.z());
                 if (isFree(level, pos)) {
-                    level.setBlock(pos, leafState, FLAGS);
+                    level.setBlock(pos, leafBase.setValue(BlockStateProperties.DISTANCE,
+                            Math.max(1, Math.min(7, v.distance()))), FLAGS);
                 }
             }
         }
