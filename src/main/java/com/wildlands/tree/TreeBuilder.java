@@ -75,17 +75,17 @@ public final class TreeBuilder {
     private void oak() {
         double h = height;
         double base = 0.27 * h + rnd.nextDouble() * 0.04 * h;
-        crownR = Math.min(9.0, 0.50 * h);
-        hollow = 0.42;
+        crownR = Math.min(10.0, 0.55 * h);
+        hollow = 0.45;
         trunkRadius = 0.043 * h + 0.1;
         leafR = 2.5;
-        leafFlat = 0.58;
-        leafDensity = 0.5;
+        leafFlat = 0.6;
+        leafDensity = 0.88;
         leafTwigRadius = 0.22;
         trunk(h * (0.80 + rnd.nextDouble() * 0.1), 0.5, 0.18);
         limbs(5 + rnd.nextInt(3), base * 0.8, h * 0.66, 32, 58, crownR * 0.8, crownR * 1.15, 0.05);
         double cy = base + (h - base) * 0.5;
-        spaceColonization(cy, (h - base) * 0.52, crownR, 300, 4.6, 1.6, 0.06, 0.9);
+        spaceColonization(cy, (h - base) * 0.52, crownR, 280, 4.8, 2.0, 0.05, 1.1);
     }
 
     private void birch() {
@@ -94,22 +94,22 @@ public final class TreeBuilder {
         crownR = Math.min(6.0, 0.30 * h);
         hollow = 0.12;
         trunkRadius = 0.024 * h + 0.08;
-        leafR = 2.0;
-        leafFlat = 0.85;
-        leafDensity = 0.62;
+        leafR = 2.5;
+        leafFlat = 0.8;
+        leafDensity = 0.8;
         leafTwigRadius = 0.12;
         trunk(h * (0.9 + rnd.nextDouble() * 0.06), 0.9, 0.5);
         limbs(6 + rnd.nextInt(3), base, h * 0.8, 24, 46, crownR * 0.7, crownR * 1.1, 0.03);
         double cy = base + (h - base) * 0.5;
-        spaceColonization(cy, (h - base) * 0.52, crownR, 260, 3.4, 1.0, 0.20, 0.8);
+        spaceColonization(cy, (h - base) * 0.52, crownR, 220, 3.8, 1.6, 0.18, 1.0);
     }
 
     private void spruce() {
         double h = height;
         trunkRadius = 0.030 * h + 0.12;
-        leafR = 1.9;
-        leafFlat = 0.5;
-        leafDensity = 0.95;
+        leafR = 2.3;
+        leafFlat = 0.55;
+        leafDensity = 0.97;
         leafTwigRadius = 0.15;
         trunk(h - 0.5, 0.15, 0.06);
         double y0 = 0.17 * h;
@@ -190,22 +190,35 @@ public final class TreeBuilder {
             az += golden * (0.8 + rnd.nextDouble() * 0.5);
             double el = Math.toRadians(elevMin + (elevMax - elevMin) * rnd.nextDouble());
             double len = (lenMin + (lenMax - lenMin) * rnd.nextDouble()) * (1.0 - 0.3 * i / count);
-            Node t = nodes.get(trunkNodeAt(y));
+            int from = trunkNodeAt(y);
+            Node t = nodes.get(from);
             double dx = Math.cos(az) * Math.cos(el), dy = Math.sin(el), dz = Math.sin(az) * Math.cos(el);
-            double x = t.x, yy = t.y, z = t.z;
-            int prev = trunkNodeAt(y);
-            for (double d = 0; d < len; d += 1.0) {
-                dx += (rnd.nextDouble() - 0.5) * 0.18;
-                dz += (rnd.nextDouble() - 0.5) * 0.18;
-                dy -= gravity;
-                double l = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                dx /= l;
-                dy /= l;
-                dz /= l;
-                x += dx;
-                yy += dy;
-                z += dz;
-                prev = add(x, yy, z, prev);
+            branch(from, t.x, t.y, t.z, dx, dy, dz, len, gravity, 2);
+        }
+    }
+
+    /** Почти прямая ветвь с развилками: дочерние ветви расходятся под углом 30-65 градусов. */
+    private void branch(int prev, double x, double y, double z, double dx, double dy, double dz,
+                        double len, double gravity, int depth) {
+        for (double d = 0; d < len; d += 1.0) {
+            dx += (rnd.nextDouble() - 0.5) * 0.07;
+            dz += (rnd.nextDouble() - 0.5) * 0.07;
+            dy -= gravity;
+            double l = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            dx /= l;
+            dy /= l;
+            dz /= l;
+            x += dx;
+            y += dy;
+            z += dz;
+            prev = add(x, y, z, prev);
+            if (depth > 0 && d >= 2 && d < len - 2 && rnd.nextDouble() < 0.30) {
+                double yaw = (rnd.nextBoolean() ? 1 : -1) * Math.toRadians(30 + rnd.nextDouble() * 35);
+                double cs = Math.cos(yaw), sn = Math.sin(yaw);
+                double ndx = dx * cs - dz * sn, ndz = dx * sn + dz * cs, ndy = dy + 0.15;
+                double nl = Math.sqrt(ndx * ndx + ndy * ndy + ndz * ndz);
+                branch(prev, x, y, z, ndx / nl, ndy / nl, ndz / nl, (len - d) * (0.55 + 0.25 * rnd.nextDouble()),
+                        gravity, depth - 1);
             }
         }
     }
@@ -284,9 +297,9 @@ public final class TreeBuilder {
                     continue;
                 }
                 double dx = sum[i][0] / cnt[i], dy = sum[i][1] / cnt[i] + tropism, dz = sum[i][2] / cnt[i];
-                dx += (rnd.nextDouble() - 0.5) * 0.25;
-                dy += (rnd.nextDouble() - 0.5) * 0.25;
-                dz += (rnd.nextDouble() - 0.5) * 0.25;
+                dx += (rnd.nextDouble() - 0.5) * 0.12;
+                dy += (rnd.nextDouble() - 0.5) * 0.12;
+                dz += (rnd.nextDouble() - 0.5) * 0.12;
                 double l = Math.sqrt(dx * dx + dy * dy + dz * dz);
                 if (l < 1e-6) {
                     continue;
@@ -419,10 +432,10 @@ public final class TreeBuilder {
             }
             // низкочастотный шум вырезает просветы между кластерами
             double lobe = Math.sin(n.x * 0.9 + n.y * 0.5) * Math.cos(n.z * 0.8 - n.y * 0.7);
-            if (hollow > 0 && lobe < -0.55) {
+            if (hollow > 0 && lobe < -0.85) {
                 continue;
             }
-            if (!tip && rnd.nextDouble() > (sp == Species.SPRUCE ? 0.8 : leafDensity * 0.3)) {
+            if (!tip && rnd.nextDouble() > (sp == Species.SPRUCE ? 0.8 : leafDensity * 0.15)) {
                 continue;
             }
             double cyOff = sp == Species.SPRUCE ? -0.5 : 0.1;
@@ -463,7 +476,7 @@ public final class TreeBuilder {
                     double dx = vx + 0.5 - cx, dy = (vy + 0.5 - cy) / leafFlat, dz = vz + 0.5 - cz;
                     double d = Math.sqrt(dx * dx + dy * dy + dz * dz) / rad;
                     double noise = rnd.nextDouble() * 0.55;
-                    if (d + noise < 1.0 && rnd.nextDouble() < leafDensity + 0.35) {
+                    if (d + noise < 1.0 && rnd.nextDouble() < leafDensity + 0.2) {
                         model.setLeaf(vx, vy, vz);
                     }
                 }

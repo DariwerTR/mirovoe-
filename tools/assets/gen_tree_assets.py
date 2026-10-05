@@ -337,9 +337,12 @@ def vanilla_leaves(sp, jar):
     a = np.array(im, dtype=float)
     tint = np.array(LEAF_TINT[sp], dtype=float) / 255.0
     rgb = a[..., :3] * tint
-    hole = a[..., 3] < 128
-    rgb[hole] = np.array(LEAF_TINT[sp], dtype=float) * 0.28
-    return Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8), "RGB")
+    if "--opaque-leaves" in sys.argv:
+        hole = a[..., 3] < 128
+        rgb[hole] = np.array(LEAF_TINT[sp], dtype=float) * 0.28
+        return Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8), "RGB")
+    out = np.dstack([rgb, np.where(a[..., 3] < 128, 0, 255)])
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGBA")
 
 
 def face(uv, tex="#bark", cull=None):
@@ -505,6 +508,7 @@ def main():
             "textures": {"end": top_ref(sp), "side": bark_ref(sp)},
         })
         w(os.path.join(A, "models", "block", f"{sp}_leaves.json"), {
+            "render_type": "minecraft:cutout_mipped",
             "parent": "minecraft:block/cube_all",
             "textures": {"all": f"wildlands:block/{sp}_leaves"},
         })

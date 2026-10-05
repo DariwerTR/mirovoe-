@@ -1,5 +1,6 @@
 package com.wildlands.block;
 
+import com.wildlands.util.RenderLayerHook;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class WoodLeavesBlock extends Block {
     public WoodLeavesBlock(BlockBehaviour.Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(PERSISTENT, true));
+        RenderLayerHook.cutout(this);
     }
 
     @Override
