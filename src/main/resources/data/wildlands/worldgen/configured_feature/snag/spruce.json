@@ -1,0 +1,9 @@
+{
+  "type": "wildlands:wild_tree",
+  "config": {
+    "species": "spruce",
+    "min_height": 12,
+    "max_height": 20,
+    "dead": true
+  }
+}

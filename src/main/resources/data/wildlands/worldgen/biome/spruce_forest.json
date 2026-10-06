@@ -81,7 +81,8 @@
       "wildlands:debris_stump_spruce",
       "wildlands:debris_bush_spruce",
       "wildlands:litter_light",
-      "minecraft:patch_berry_rare"
+      "minecraft:patch_berry_rare",
+      "wildlands:snag_spruce"
     ],
     [
       "minecraft:freeze_top_layer"

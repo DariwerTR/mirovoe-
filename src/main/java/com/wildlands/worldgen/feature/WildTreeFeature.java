@@ -83,6 +83,11 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
 
         TreeModel model = TreeBuilder.generate(species, height, random.nextLong());
         List<TreeModel.Voxel> voxels = model.voxels();
+        if (config.dead()) {
+            // сухостой: ни листвы, ни вершины (обломана на 75-90% высоты)
+            int cut = (int) (height * (0.75 + 0.15 * random.nextFloat()));
+            voxels = voxels.stream().filter(v -> v.wood() && v.y() <= cut).toList();
+        }
 
         // земля под деревом: под каждым блоком основания должна быть твёрдая земля.
         // Пустоты под стволом (до MAX_FILL блоков) засыпаем землёй; если глубже, дерево не ставим.
