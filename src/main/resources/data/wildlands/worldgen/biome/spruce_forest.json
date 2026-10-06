@@ -17,7 +17,8 @@
     [],
     [
       "minecraft:lake_lava_underground",
-      "minecraft:lake_lava_surface"
+      "minecraft:lake_lava_surface",
+      "wildlands:forest_pond_rare"
     ],
     [
       "minecraft:amethyst_geode",
@@ -82,7 +83,8 @@
       "wildlands:debris_bush_spruce",
       "wildlands:litter_light",
       "minecraft:patch_berry_rare",
-      "wildlands:snag_spruce"
+      "wildlands:snag_spruce",
+      "minecraft:patch_waterlily"
     ],
     [
       "minecraft:freeze_top_layer"

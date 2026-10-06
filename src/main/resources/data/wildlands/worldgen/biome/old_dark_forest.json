@@ -25,7 +25,8 @@
     [],
     [
       "minecraft:lake_lava_underground",
-      "minecraft:lake_lava_surface"
+      "minecraft:lake_lava_surface",
+      "wildlands:forest_pond"
     ],
     [
       "minecraft:amethyst_geode",
@@ -90,7 +91,8 @@
       "wildlands:debris_stump_oak",
       "wildlands:debris_bush_oak",
       "wildlands:litter_dense",
-      "wildlands:snag_oak"
+      "wildlands:snag_oak",
+      "minecraft:patch_waterlily"
     ],
     [
       "minecraft:freeze_top_layer"
