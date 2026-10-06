@@ -23,6 +23,8 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 public class WildTreeFeature extends Feature<WildTreeConfig> {
     /** 2 = отправить клиентам, 16 = без обновления форм соседей. */
     private static final int FLAGS = 18;
+    /** Сколько блоков земли можно досыпать под основание ствола. */
+    private static final int MAX_FILL = 1;
 
     public WildTreeFeature(Codec<WildTreeConfig> codec) {
         super(codec);
@@ -82,26 +84,70 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
         TreeModel model = TreeBuilder.generate(species, height, random.nextLong());
         List<TreeModel.Voxel> voxels = model.voxels();
 
+        // земля под деревом: под каждым блоком основания должна быть твёрдая земля.
+        // Пустоты под стволом (до MAX_FILL блоков) засыпаем землёй; если глубже, дерево не ставим.
+        BlockState soil = level.getBlockState(origin.below());
+        if (!soil.is(BlockTags.DIRT) || soil.is(Blocks.GRASS_BLOCK) || soil.is(Blocks.PODZOL) || soil.is(Blocks.MYCELIUM)) {
+            soil = Blocks.DIRT.defaultBlockState();
+        }
+        // Земля под деревом. Колонны ствола (дерево продолжается выше y=3) обязаны стоять на земле:
+        // пустоту до MAX_FILL блоков засыпаем землёй, глубже дерево не ставим. Контрфорсы у основания
+        // (дальше вверх не идут) без опоры просто не ставим: никаких корней вниз и висящих блоков.
+        java.util.Set<Long> fill = new java.util.TreeSet<>();
+        java.util.Set<Long> dropped = new java.util.HashSet<>();
+        java.util.Set<Long> trunkCols = new java.util.HashSet<>();
+        for (TreeModel.Voxel v : voxels) {
+            if (v.wood() && v.y() == 3) {
+                trunkCols.add(BlockPos.asLong(v.x(), 0, v.z()));
+            }
+        }
+        java.util.Set<Long> woodKeys = new java.util.HashSet<>();
         for (TreeModel.Voxel v : voxels) {
             if (v.wood()) {
+                woodKeys.add(BlockPos.asLong(v.x(), v.y(), v.z()));
+            }
+        }
+        BlockPos.MutableBlockPos g = new BlockPos.MutableBlockPos();
+        for (TreeModel.Voxel v : voxels) {
+            // опоры ищем только у нижних блоков колонны: если под блоком древесина дерева, он стоит на ней
+            if (!v.wood() || v.y() > 2 || woodKeys.contains(BlockPos.asLong(v.x(), v.y() - 1, v.z()))) {
+                continue;
+            }
+            int x = origin.getX() + v.x(), z = origin.getZ() + v.z();
+            int depth = 0;
+            boolean found = false;
+            for (int yy = origin.getY() + v.y() - 1; depth <= MAX_FILL; yy--) {
+                g.set(x, yy, z);
+                if (isSolidGround(level, g)) {
+                    found = true;
+                    break;
+                }
+                depth++;
+            }
+            if (!found) {
+                if (trunkCols.contains(BlockPos.asLong(v.x(), 0, v.z()))) {
+                    return false;
+                }
+                dropped.add(BlockPos.asLong(v.x(), v.y(), v.z()));
+                continue;
+            }
+            if (depth > 0 && !trunkCols.contains(BlockPos.asLong(v.x(), 0, v.z()))) {
+                // контрфорс на краю уступа: не заполняем, убираем
+                dropped.add(BlockPos.asLong(v.x(), v.y(), v.z()));
+                continue;
+            }
+            for (int d = 1; d <= depth; d++) {
+                fill.add(BlockPos.asLong(x, origin.getY() + v.y() - d, z));
+            }
+        }
+        for (long l : fill) {
+            level.setBlock(BlockPos.of(l), soil, FLAGS);
+        }
+        for (TreeModel.Voxel v : voxels) {
+            if (v.wood() && !dropped.contains(BlockPos.asLong(v.x(), v.y(), v.z()))) {
                 pos.set(origin.getX() + v.x(), origin.getY() + v.y(), origin.getZ() + v.z());
                 if (isFree(level, pos)) {
                     level.setBlock(pos, woodState(log, branch, v), FLAGS);
-                }
-            }
-        }
-        // корни: всё, что у основания висит над пустотой, продлеваем вниз до земли
-        BlockState rootState = log.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
-        BlockPos.MutableBlockPos below = new BlockPos.MutableBlockPos();
-        for (TreeModel.Voxel v : voxels) {
-            if (v.wood() && v.y() <= 3) {
-                int x = origin.getX() + v.x(), z = origin.getZ() + v.z();
-                for (int depth = 1; depth <= 14; depth++) {
-                    below.set(x, origin.getY() + v.y() - depth, z);
-                    if (!isFree(level, below)) {
-                        break;
-                    }
-                    level.setBlock(below, rootState, FLAGS);
                 }
             }
         }
@@ -128,6 +174,11 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
             return log.defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis);
         }
         return branch.stateFor(v.cls(), v.conn());
+    }
+
+    private static boolean isSolidGround(WorldGenLevel level, BlockPos pos) {
+        return level.isStateAtPosition(pos, st -> !st.isAir() && st.getFluidState().isEmpty() && !st.canBeReplaced() && !st.is(BlockTags.LOGS) && !st.is(BlockTags.LEAVES)
+                && !st.is(BlockTags.REPLACEABLE_BY_TREES));
     }
 
     private static boolean isFree(WorldGenLevel level, BlockPos pos) {

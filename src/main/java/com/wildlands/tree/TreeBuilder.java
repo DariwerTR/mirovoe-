@@ -44,6 +44,9 @@ public final class TreeBuilder {
     private final List<Integer> trunkIdx = new ArrayList<>();
     private final int height;
     private double trunkRadius;
+    /** Диаметр ствола у земли в блоках (до сбега), см. trunkWidthExact. */
+    private double dbhBlocks = 1.0;
+    private final java.util.Map<Integer, int[]> footprints = new java.util.HashMap<>();
     private double leafR;
     private double leafFlat;
     private double leafDensity;
@@ -78,7 +81,8 @@ public final class TreeBuilder {
         double base = 0.27 * h + rnd.nextDouble() * 0.04 * h;
         crownR = Math.min(10.0, 0.55 * h);
         hollow = 0.10;
-        trunkRadius = 0.043 * h + 0.1;
+        dbhBlocks = 0.046 * h;                                           // дуб 20 м: DBH около 0.9 м
+        trunkRadius = Math.max(0.5, Math.min(0.95, 0.016 * h + 0.28));
         leafR = 3.0;
         leafFlat = 0.7;
         leafDensity = 0.97;
@@ -94,7 +98,8 @@ public final class TreeBuilder {
         double base = 0.30 * h + rnd.nextDouble() * 0.05 * h;
         crownR = Math.min(6.0, 0.30 * h);
         hollow = 0.12;
-        trunkRadius = 0.024 * h + 0.08;
+        dbhBlocks = 0.028 * h;                                           // берёза стройнее
+        trunkRadius = Math.max(0.5, Math.min(0.70, 0.010 * h + 0.36));
         leafR = 2.9;
         leafFlat = 0.85;
         leafDensity = 0.97;
@@ -105,54 +110,81 @@ public final class TreeBuilder {
         spaceColonization(cy, (h - base) * 0.52, crownR, 220, 3.8, 1.6, 0.18, 1.0);
     }
 
+    /**
+     * Ель: прямой ствол, конус из ярусов. Каждые 3 блока по высоте мутовка из 5-9 ветвей, которые
+     * свисают вниз, а к концу загибаются вверх. Хвоя это «лапы»: полоса шире к середине ветви
+     * и свисающий нижний слой. Между ярусами видны ствол и просветы.
+     */
     private void spruce() {
         double h = height;
-        trunkRadius = 0.030 * h + 0.12;
-        leafR = 2.3;
-        leafFlat = 0.55;
-        leafDensity = 0.97;
-        leafTwigRadius = 0.15;
-        trunk(h - 0.5, 0.15, 0.06);
-        double y0 = 0.17 * h;
-        double lmax = Math.max(3.4, Math.min(6.4, h * 0.17));
+        dbhBlocks = 0.036 * h;                                           // ель 35 м: DBH около 1.2 м
+        trunkRadius = Math.max(0.5, Math.min(0.85, 0.012 * h + 0.34));
+        trunk(h - 0.5, 0.12, 0.04);
+        double y0 = Math.max(3.0, 0.22 * h);
+        double rmax = Math.max(3.6, Math.min(7.0, 0.21 * h));
         double golden = Math.PI * (3 - Math.sqrt(5));
-        double ang = rnd.nextDouble() * Math.PI * 2;
-        for (double y = y0; y < h - 1.2; y += 1.1) {
+        double phase = rnd.nextDouble() * Math.PI * 2;
+        int tier = 0;
+        for (double y = y0; y <= h - 1.5; y += 3.0, tier++) {
             double t = (y - y0) / (h - y0);
-            double len = lmax * Math.pow(1 - t, 0.95) + 0.8;
-            int count = len > 2.5 ? 3 : 2;
+            double reach = rmax * (1.0 - t) + 1.0;
+            // слабый ритм «густо-реже» между ярусами, как у настоящих елей
+            reach *= (tier % 3 == 2) ? 0.82 : 1.0;
+            int count = (int) Math.max(6, Math.min(10, Math.round(reach * 1.5)));
             int ti = trunkNodeAt(y);
+            phase += golden;
             for (int i = 0; i < count; i++) {
-                ang += golden * 2.2;
-                spruceBranch(ti, ang + i * (Math.PI * 2 / count), len * (0.8 + rnd.nextDouble() * 0.4), t);
+                double ang = phase + i * (Math.PI * 2 / count) + (rnd.nextDouble() - 0.5) * 0.35;
+                spruceBranch(ti, ang, reach * (0.85 + rnd.nextDouble() * 0.3), t);
             }
         }
+        // вершина: тонкий шпиль
+        Node top = nodes.get(trunkIdx.get(trunkIdx.size() - 1));
+        int tx = (int) Math.floor(top.x), tz = (int) Math.floor(top.z), ty = (int) Math.floor(top.y);
+        model.setLeaf(tx, ty + 1, tz);
+        model.setLeaf(tx, ty, tz);
+        for (int[] o : new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}) {
+            model.setLeaf(tx + o[0], ty - 1, tz + o[1]);
+            model.setLeaf(tx + o[0], ty - 2, tz + o[1]);
+        }
+        model.setLeaf(tx, ty - 1, tz);
+        model.setLeaf(tx, ty - 2, tz);
     }
 
     private void spruceBranch(int from, double angle, double len, double t) {
         Node s = nodes.get(from);
         double dx = Math.cos(angle), dz = Math.sin(angle);
+        double px = -dz, pz = dx; // горизонтальный перпендикуляр
         int steps = Math.max(2, (int) Math.round(len));
         int prev = from;
         double x = s.x, y = s.y, z = s.z;
-        double droop = 0.30 - 0.15 * t;
+        double droop = 0.26 - 0.14 * t;
         for (int i = 1; i <= steps; i++) {
             double f = (double) i / steps;
-            x += dx * 1.0;
-            z += dz * 1.0;
-            y += (f < 0.6 ? -droop : droop * 1.4);
+            x += dx;
+            z += dz;
+            y += f < 0.65 ? -droop : droop * 1.6;
             prev = add(x, y, z, prev);
-            if (i >= 2 && i < steps && i % 2 == 0) {
-                double sa = angle + (i % 4 == 0 ? 1 : -1) * 1.0;
-                int sprev = prev;
-                double sx = x, sy = y, sz = z;
-                int sl = Math.max(1, (int) Math.round((steps - i) * 0.5));
-                for (int j = 0; j < sl; j++) {
-                    sx += Math.cos(sa) * 0.9;
-                    sz += Math.sin(sa) * 0.9;
-                    sy -= 0.15;
-                    sprev = add(sx, sy, sz, sprev);
+            int vx = (int) Math.floor(x), vy = (int) Math.floor(y), vz = (int) Math.floor(z);
+            // хвоя: полоса вдоль ветви, шире к середине, плюс свисающий нижний слой
+            int width = f < 0.2 ? 0 : (f < 0.85 ? 1 : 0);
+            if (len > 4.5 && f > 0.35 && f < 0.8) {
+                width = 2;
+            }
+            model.setLeaf(vx, vy, vz);
+            for (int w = 1; w <= width; w++) {
+                model.setLeaf((int) Math.floor(x + px * w), vy, (int) Math.floor(z + pz * w));
+                model.setLeaf((int) Math.floor(x - px * w), vy, (int) Math.floor(z - pz * w));
+            }
+            if (f > 0.25) {
+                model.setLeaf(vx, vy - 1, vz);
+                if (width >= 1) {
+                    model.setLeaf((int) Math.floor(x + px), vy - 1, (int) Math.floor(z + pz));
+                    model.setLeaf((int) Math.floor(x - px), vy - 1, (int) Math.floor(z - pz));
                 }
+            }
+            if (f > 0.45 && f < 0.9 && len > 5.5) {
+                model.setLeaf(vx, vy - 2, vz);
             }
         }
     }
@@ -353,9 +385,14 @@ public final class TreeBuilder {
     // ------------------------------------------------------- растеризация
 
     private void rasterize() {
+        boolean[] isTrunk = new boolean[nodes.size()];
+        for (int i : trunkIdx) {
+            isTrunk[i] = true;
+        }
         for (int i = 1; i < nodes.size(); i++) {
             Node n = nodes.get(i);
             Node p = nodes.get(n.parent);
+            boolean trunkSeg = isTrunk[i] && isTrunk[n.parent];
             double dx = n.x - p.x, dy = n.y - p.y, dz = n.z - p.z;
             double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
             int axis = Math.abs(dy) >= Math.abs(dx) && Math.abs(dy) >= Math.abs(dz) ? TreeModel.AXIS_Y
@@ -366,9 +403,6 @@ public final class TreeBuilder {
                 double f = (double) s / samples;
                 double x = p.x + dx * f, y = p.y + dy * f, z = p.z + dz * f;
                 double r = p.r + (n.r - p.r) * f;
-                if (y < 2.0) {
-                    r *= 1.0 + 0.32 * (1.0 - Math.max(0, y) / 2.0);
-                }
                 int[] cur = {(int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z)};
                 boolean thick = r >= 0.5;
                 int cls = thick ? TreeModel.FULL : Math.max(1, Math.min(7, (int) Math.round(r * 16)));
@@ -376,27 +410,84 @@ public final class TreeBuilder {
                     bridge(prev, cur, cls, axis);
                 }
                 model.setWood(cur[0], cur[1], cur[2], cls, axis);
-                if (thick) {
-                    stamp(x, y, z, r, axis);
+                if (trunkSeg && thick) {
+                    int w = trunkWidth(y);
+                    if (w > 1) {
+                        trunkFootprint(x, y, z, w);
+                    }
                 }
                 prev = cur;
             }
         }
+        buttresses();
     }
 
-    private void stamp(double x, double y, double z, double r, int axis) {
-        int ri = (int) Math.ceil(r + 0.5);
-        double lim = r + 0.18;
-        for (int ix = -ri; ix <= ri; ix++) {
-            for (int iy = -ri; iy <= ri; iy++) {
-                for (int iz = -ri; iz <= ri; iz++) {
-                    int vx = (int) Math.floor(x) + ix, vy = (int) Math.floor(y) + iy, vz = (int) Math.floor(z) + iz;
-                    double cx = vx + 0.5 - x, cy = vy + 0.5 - y, cz = vz + 0.5 - z;
-                    if (cx * cx + cy * cy + cz * cz <= lim * lim) {
-                        model.setWood(vx, vy, vz, TreeModel.FULL, axis);
-                    }
-                }
+    /**
+     * Ширина ствола в блоках на высоте y. Реальные пропорции: диаметр на высоте груди (DBH) растёт
+     * примерно как 0.03-0.05 от высоты дерева (дуб 20 м около 0.8 м, ель 35 м около 1.0 м),
+     * к вершине ствол сбегает в конус (форма ствола: на середине высоты около 0.6 DBH).
+     * Пока ширина меньше 1.5 блока, ствол это одно бревно; шире 2x2 только у гигантов.
+     */
+    private double trunkWidthExact(double y) {
+        double f = Math.max(0.0, Math.min(1.0, y / Math.max(1.0, height)));
+        return dbhBlocks * (1.0 - 0.55 * Math.pow(f, 0.8));
+    }
+
+    private int trunkWidth(double y) {
+        return Math.max(1, Math.min(3, (int) Math.floor(trunkWidthExact(y) + 0.5)));
+    }
+
+    /** Квадратное сечение w x w вокруг оси ствола; у 3x3 срезаны углы, чтобы было круглее. */
+    private void trunkFootprint(double x, double y, double z, int w) {
+        int vy = (int) Math.floor(y);
+        // один слой по высоте: сечение выбирается один раз (по первому образцу), иначе из-за изгиба
+        // ствола получаются «жирные» неровные слои шире заданных
+        int[] o = footprints.get(vy);
+        if (o == null) {
+            if ((w & 1) == 1) {
+                o = new int[] {(int) Math.floor(x) - w / 2, (int) Math.floor(z) - w / 2, w};
+            } else {
+                o = new int[] {(int) Math.round(x) - w / 2, (int) Math.round(z) - w / 2, w};
             }
+            footprints.put(vy, o);
+        }
+        w = o[2];
+        int x0 = o[0], z0 = o[1];
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < w; j++) {
+                if (w >= 3 && (i == 0 || i == w - 1) && (j == 0 || j == w - 1)) {
+                    continue;
+                }
+                model.setWood(x0 + i, vy, z0 + j, TreeModel.FULL, TreeModel.AXIS_Y);
+            }
+        }
+    }
+
+    /**
+     * Контрфорсы: у основания крупного дерева 2-4 коротких бревна лежат вплотную к стволу на уровне
+     * земли. Никаких корней вниз: бревно стоит прямо на земле, а если под ним пустота, его убирает
+     * генерация (см. WildTreeFeature).
+     */
+    private void buttresses() {
+        if (height < 16) {
+            return;
+        }
+        int w = trunkWidth(0.5);
+        int lo = (w & 1) == 1 ? -(w / 2) : 1 - w / 2;
+        int hi = lo + w - 1;
+        int count = 2 + rnd.nextInt(3);
+        int side0 = rnd.nextInt(4);
+        for (int k = 0; k < count; k++) {
+            int side = (side0 + k + (rnd.nextBoolean() ? 1 : 0)) & 3;
+            int off = lo + rnd.nextInt(Math.max(1, hi - lo + 1));
+            int bx, bz, axis;
+            switch (side) {
+                case 0 -> { bx = hi + 1; bz = off; axis = TreeModel.AXIS_X; }
+                case 1 -> { bx = lo - 1; bz = off; axis = TreeModel.AXIS_X; }
+                case 2 -> { bx = off; bz = hi + 1; axis = TreeModel.AXIS_Z; }
+                default -> { bx = off; bz = lo - 1; axis = TreeModel.AXIS_Z; }
+            }
+            model.setWood(bx, 0, bz, TreeModel.FULL, axis);
         }
     }
 
@@ -414,6 +505,9 @@ public final class TreeBuilder {
     // ------------------------------------------------------------ листва
 
     private void leaves(Species sp) {
+        if (sp == Species.SPRUCE) {
+            return;
+        }
         List<Node> leafy = new ArrayList<>();
         double minR = 1e9;
         for (Node n : nodes) {
