@@ -46,6 +46,8 @@ public final class TreeBuilder {
     private double trunkRadius;
     /** Диаметр ствола у земли в блоках (до сбега), см. trunkWidthExact. */
     private double dbhBlocks = 1.0;
+    /** 0: шар/эллипсоид; >0: яйцевидная крона, сужающаяся кверху. */
+    private double crownTaper = 0;
     private final java.util.Map<Integer, int[]> footprints = new java.util.HashMap<>();
     private double leafR;
     private double leafFlat;
@@ -95,12 +97,13 @@ public final class TreeBuilder {
 
     private void birch() {
         double h = height;
-        double base = 0.30 * h + rnd.nextDouble() * 0.05 * h;
-        crownR = Math.min(6.0, 0.30 * h);
+        double base = 0.33 * h + rnd.nextDouble() * 0.05 * h;
+        crownR = Math.min(5.2, 0.24 * h);
+        crownTaper = 0.6;
         hollow = 0.12;
         dbhBlocks = 0.028 * h;                                           // берёза стройнее
         trunkRadius = Math.max(0.5, Math.min(0.70, 0.010 * h + 0.36));
-        leafR = 2.9;
+        leafR = 2.5;
         leafFlat = 0.85;
         leafDensity = 0.97;
         leafTwigRadius = 0.12;
@@ -286,6 +289,12 @@ public final class TreeBuilder {
             }
             // верх крон чуть приплюснут, низ округлый
             double yy = py > 0 ? py * 0.9 : py;
+            if (crownTaper > 0 && py > 0) {
+                // яйцевидная крона: к вершине сужается (берёза)
+                double sc = Math.pow(1.0 - py, crownTaper);
+                px *= sc;
+                pz *= sc;
+            }
             att.add(new double[] {nodes.get(0).x + px * crownR, cy + yy * halfH, nodes.get(0).z + pz * crownR});
         }
         boolean[] dead = new boolean[att.size()];

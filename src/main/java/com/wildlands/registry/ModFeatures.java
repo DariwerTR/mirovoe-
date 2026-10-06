@@ -1,6 +1,8 @@
 package com.wildlands.registry;
 
 import com.wildlands.Wildlands;
+import com.wildlands.worldgen.feature.DebrisConfig;
+import com.wildlands.worldgen.feature.DebrisFeature;
 import com.wildlands.worldgen.feature.RealisticTreeConfig;
 import com.wildlands.worldgen.feature.RealisticTreeFeature;
 import com.wildlands.worldgen.feature.WildTreeConfig;
@@ -21,6 +23,9 @@ public final class ModFeatures {
 
     public static final RegistryObject<WildTreeFeature> WILD_TREE =
             FEATURES.register("wild_tree", () -> new WildTreeFeature(WildTreeConfig.CODEC));
+
+    public static final RegistryObject<DebrisFeature> DEBRIS =
+            FEATURES.register("debris", () -> new DebrisFeature(DebrisConfig.CODEC));
 
     private ModFeatures() {
     }

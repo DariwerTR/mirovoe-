@@ -1,0 +1,7 @@
+{
+  "type": "wildlands:debris",
+  "config": {
+    "kind": "stump",
+    "species": "birch"
+  }
+}

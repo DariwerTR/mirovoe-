@@ -84,7 +84,16 @@
       "minecraft:patch_pumpkin",
       "minecraft:patch_sugar_cane",
       "minecraft:patch_firefly_bush_near_water",
-      "wildlands:ferns_mixed"
+      "wildlands:ferns_mixed",
+      "wildlands:debris_fallen_log_oak",
+      "wildlands:debris_stump_oak",
+      "wildlands:debris_bush_oak",
+      "wildlands:debris_fallen_log_birch",
+      "wildlands:debris_stump_birch",
+      "wildlands:debris_bush_birch",
+      "wildlands:debris_fallen_log_spruce",
+      "wildlands:debris_stump_spruce",
+      "wildlands:debris_bush_spruce"
     ],
     [
       "minecraft:freeze_top_layer"
