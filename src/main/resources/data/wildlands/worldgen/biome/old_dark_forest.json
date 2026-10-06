@@ -88,7 +88,8 @@
       "wildlands:ferns_dark",
       "wildlands:debris_fallen_log_oak",
       "wildlands:debris_stump_oak",
-      "wildlands:debris_bush_oak"
+      "wildlands:debris_bush_oak",
+      "wildlands:litter_dense"
     ],
     [
       "minecraft:freeze_top_layer"

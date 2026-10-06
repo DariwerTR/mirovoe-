@@ -93,7 +93,9 @@
       "wildlands:debris_bush_birch",
       "wildlands:debris_fallen_log_spruce",
       "wildlands:debris_stump_spruce",
-      "wildlands:debris_bush_spruce"
+      "wildlands:debris_bush_spruce",
+      "wildlands:litter_mid",
+      "minecraft:patch_berry_rare"
     ],
     [
       "minecraft:freeze_top_layer"

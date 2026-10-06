@@ -87,7 +87,8 @@
       "minecraft:flower_flower_forest",
       "wildlands:debris_fallen_log_birch",
       "wildlands:debris_stump_birch",
-      "wildlands:debris_bush_birch"
+      "wildlands:debris_bush_birch",
+      "wildlands:litter_light"
     ],
     [
       "minecraft:freeze_top_layer"
