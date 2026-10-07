@@ -96,11 +96,11 @@
       "wildlands:debris_stump_spruce",
       "wildlands:debris_bush_spruce",
       "wildlands:litter_mid",
-      "minecraft:patch_berry_rare",
+      "wildlands:berries",
+      "wildlands:lilypads",
       "wildlands:snag_oak",
       "wildlands:snag_birch",
       "wildlands:snag_spruce",
-      "minecraft:patch_waterlily",
       "wildlands:young_oak",
       "wildlands:young_birch",
       "wildlands:young_spruce"

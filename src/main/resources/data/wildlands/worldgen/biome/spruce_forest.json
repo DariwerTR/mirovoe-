@@ -68,7 +68,6 @@
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:patch_large_fern",
       "wildlands:trees_spruce_forest",
       "minecraft:flower_default",
       "minecraft:patch_grass_taiga_2",
@@ -82,9 +81,10 @@
       "wildlands:debris_stump_spruce",
       "wildlands:debris_bush_spruce",
       "wildlands:litter_light",
-      "minecraft:patch_berry_rare",
+      "wildlands:fern_large",
+      "wildlands:berries",
+      "wildlands:lilypads",
       "wildlands:snag_spruce",
-      "minecraft:patch_waterlily",
       "wildlands:young_spruce"
     ],
     [

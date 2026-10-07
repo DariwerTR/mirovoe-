@@ -75,7 +75,6 @@
     [
       "minecraft:glow_lichen",
       "minecraft:forest_flowers",
-      "minecraft:wildflowers_birch_forest",
       "wildlands:trees_birch_grove",
       "minecraft:patch_bush",
       "minecraft:flower_default",
@@ -90,8 +89,9 @@
       "wildlands:debris_stump_birch",
       "wildlands:debris_bush_birch",
       "wildlands:litter_light",
+      "wildlands:wildflowers",
+      "wildlands:lilypads",
       "wildlands:snag_birch",
-      "minecraft:patch_waterlily",
       "wildlands:young_birch"
     ],
     [
