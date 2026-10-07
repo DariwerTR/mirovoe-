@@ -76,10 +76,42 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
             }
         }
 
+        // Поляны. В настоящем лесу есть окна света на месте упавших деревьев, там густо растёт подрост
+        // (смена поколений, Forest ecology). Крупные деревья пропускаем там, где низкочастотный шум мал,
+        // а в самых светлых местах оставляем в основном подрост.
+        double gap = gapNoise(level.getSeed(), origin.getX(), origin.getZ());
+        boolean young = !config.dead() && Math.max(config.minHeight(), config.maxHeight()) <= 10;
+        if (young) {
+            if (gap > 0.6 && random.nextFloat() < (gap - 0.6f) * 2.0f) {
+                return false;
+            }
+        } else if (!config.dead() && gap < 0.30 && random.nextFloat() < (0.30f - (float) gap) / 0.30f * 0.95f) {
+            return false;
+        }
+
         int lo = Math.min(config.minHeight(), config.maxHeight());
         int hi = Math.max(config.minHeight(), config.maxHeight());
         // больше молодых и средних деревьев, меньше великанов
         int height = Math.min(hi, lo + (int) ((hi - lo + 1) * Math.pow(random.nextFloat(), 1.5)));
+
+        // Высотная поясность. Граница леса там, где средняя температура вегетации около 6 °C; у границы
+        // деревья редеют и мельчают, выше их нет (Tree line). Масштаб около 70 м на блок: граница дуба на
+        // 34 блока выше моря (около 2.4 км), берёзы на 40, ели на 46. Начинают редеть за 14 блоков до границы.
+        {
+            int alt = origin.getY() - 63;
+            int line = switch (sp) {
+                case "spruce" -> 46;
+                case "birch" -> 40;
+                default -> 34;
+            };
+            if (alt > line - 14) {
+                float t = (alt - (line - 14)) / 14.0f;
+                if (t >= 1.0f || random.nextFloat() < t * 0.85f) {
+                    return false;
+                }
+                height = Math.max(Math.min(6, hi), Math.round(height * (1.0f - 0.55f * t)));
+            }
+        }
 
         TreeModel model = TreeBuilder.generate(species, height, random.nextLong());
         List<TreeModel.Voxel> voxels = model.voxels();
@@ -167,6 +199,29 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
             }
         }
         return true;
+    }
+
+    /** Значение шума 0..1 с масштабом около 30 блоков (две октавы), детерминированное по зерну мира. */
+    private static double gapNoise(long seed, int x, int z) {
+        return 0.65 * valueNoise(seed, x / 30.0, z / 30.0) + 0.35 * valueNoise(seed ^ 0x9E3779B97F4A7C15L, x / 13.0, z / 13.0);
+    }
+
+    private static double valueNoise(long seed, double x, double z) {
+        int x0 = (int) Math.floor(x), z0 = (int) Math.floor(z);
+        double fx = x - x0, fz = z - z0;
+        fx = fx * fx * (3 - 2 * fx);
+        fz = fz * fz * (3 - 2 * fz);
+        double a = lattice(seed, x0, z0), b = lattice(seed, x0 + 1, z0);
+        double c = lattice(seed, x0, z0 + 1), d = lattice(seed, x0 + 1, z0 + 1);
+        return (a + (b - a) * fx) + ((c + (d - c) * fx) - (a + (b - a) * fx)) * fz;
+    }
+
+    private static double lattice(long seed, int x, int z) {
+        long h = seed * 6364136223846793005L + x * 1442695040888963407L + z * 2862933555777941757L;
+        h ^= h >>> 33;
+        h *= 0xff51afd7ed558ccdL;
+        h ^= h >>> 33;
+        return (h & 0xFFFFFFL) / (double) 0x1000000L;
     }
 
     private static BlockState woodState(Block log, BranchBlock branch, TreeModel.Voxel v) {
