@@ -1,20 +1,7 @@
 {
-  "type": "minecraft:lake",
+  "type": "wildlands:pond",
   "config": {
-    "barrier": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "minecraft:dirt"
-      }
-    },
-    "fluid": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "minecraft:water",
-        "Properties": {
-          "level": "0"
-        }
-      }
-    }
+    "min_radius": 2,
+    "max_radius": 4
   }
 }

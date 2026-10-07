@@ -1,11 +1,6 @@
 {
   "pack": {
     "description": "Wildlands resources",
-    "min_format": 75,
-    "max_format": 75,
-    "supported_formats": [
-      75,
-      81
-    ]
+    "pack_format": 75
   }
 }
