@@ -84,7 +84,8 @@
       "wildlands:litter_light",
       "minecraft:patch_berry_rare",
       "wildlands:snag_spruce",
-      "minecraft:patch_waterlily"
+      "minecraft:patch_waterlily",
+      "wildlands:young_spruce"
     ],
     [
       "minecraft:freeze_top_layer"

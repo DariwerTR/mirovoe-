@@ -100,7 +100,10 @@
       "wildlands:snag_oak",
       "wildlands:snag_birch",
       "wildlands:snag_spruce",
-      "minecraft:patch_waterlily"
+      "minecraft:patch_waterlily",
+      "wildlands:young_oak",
+      "wildlands:young_birch",
+      "wildlands:young_spruce"
     ],
     [
       "minecraft:freeze_top_layer"
