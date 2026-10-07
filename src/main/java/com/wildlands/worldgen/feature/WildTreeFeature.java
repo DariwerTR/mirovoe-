@@ -76,6 +76,11 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
             }
         }
 
+        // Прибрежный лес: ставим только если рядом (до 6 блоков) есть вода на уровне земли
+        if (config.nearWater() && !waterNearby(level, origin)) {
+            return false;
+        }
+
         // Поляны. В настоящем лесу есть окна света на месте упавших деревьев, там густо растёт подрост
         // (смена поколений, Forest ecology). Крупные деревья пропускаем там, где низкочастотный шум мал,
         // а в самых светлых местах оставляем в основном подрост.
@@ -85,7 +90,7 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
             if (gap > 0.6 && random.nextFloat() < (gap - 0.6f) * 2.0f) {
                 return false;
             }
-        } else if (!config.dead() && gap < 0.30 && random.nextFloat() < (0.30f - (float) gap) / 0.30f * 0.95f) {
+        } else if (!config.dead() && !config.nearWater() && gap < 0.30 && random.nextFloat() < (0.30f - (float) gap) / 0.30f * 0.95f) {
             return false;
         }
 
@@ -199,6 +204,21 @@ public class WildTreeFeature extends Feature<WildTreeConfig> {
             }
         }
         return true;
+    }
+
+    private static boolean waterNearby(WorldGenLevel level, BlockPos origin) {
+        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        for (int dx = -6; dx <= 6; dx += 2) {
+            for (int dz = -6; dz <= 6; dz += 2) {
+                for (int dy = -3; dy <= 0; dy++) {
+                    p.set(origin.getX() + dx, origin.getY() + dy, origin.getZ() + dz);
+                    if (level.getBlockState(p).is(Blocks.WATER)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /** Значение шума 0..1 с масштабом около 30 блоков (две октавы), детерминированное по зерну мира. */

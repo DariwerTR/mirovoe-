@@ -1,0 +1,9 @@
+{
+  "type": "wildlands:wild_tree",
+  "config": {
+    "species": "oak",
+    "min_height": 10,
+    "max_height": 16,
+    "near_water": true
+  }
+}

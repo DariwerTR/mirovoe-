@@ -103,7 +103,9 @@
       "wildlands:snag_spruce",
       "wildlands:young_oak",
       "wildlands:young_birch",
-      "wildlands:young_spruce"
+      "wildlands:young_spruce",
+      "wildlands:riparian_oak",
+      "wildlands:riparian_birch"
     ],
     [
       "minecraft:freeze_top_layer"

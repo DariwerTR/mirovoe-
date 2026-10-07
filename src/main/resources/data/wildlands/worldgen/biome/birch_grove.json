@@ -92,7 +92,8 @@
       "wildlands:wildflowers",
       "wildlands:lilypads",
       "wildlands:snag_birch",
-      "wildlands:young_birch"
+      "wildlands:young_birch",
+      "wildlands:riparian_birch"
     ],
     [
       "minecraft:freeze_top_layer"

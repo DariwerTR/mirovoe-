@@ -93,7 +93,8 @@
       "wildlands:litter_dense",
       "wildlands:lilypads",
       "wildlands:snag_oak",
-      "wildlands:young_oak"
+      "wildlands:young_oak",
+      "wildlands:riparian_oak"
     ],
     [
       "minecraft:freeze_top_layer"
