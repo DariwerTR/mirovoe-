@@ -1,6 +1,7 @@
 {
   "attributes": {
-    "minecraft:visual/sky_color": "#7da3ff"
+    "minecraft:visual/sky_color": "#7da3ff",
+    "minecraft:visual/fog_color": "#b4c7d8"
   },
   "carvers": [
     "minecraft:cave",
