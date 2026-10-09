@@ -8,7 +8,21 @@
       }
     },
     "minecraft:visual/sky_color": "#7aa5ff",
-    "minecraft:visual/fog_color": "#c3d9ee"
+    "minecraft:visual/fog_color": "#c3d9ee",
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "minecraft:spore_blossom_air"
+        },
+        "probability": 0.0009
+      },
+      {
+        "particle": {
+          "type": "minecraft:firefly"
+        },
+        "probability": 0.0002
+      }
+    ]
   },
   "carvers": [
     "minecraft:cave",
@@ -218,5 +232,6 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.6
+  "temperature": 0.6,
+  "creature_spawn_probability": 0.22
 }

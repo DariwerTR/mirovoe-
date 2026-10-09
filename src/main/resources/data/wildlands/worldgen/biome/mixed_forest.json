@@ -8,7 +8,21 @@
       }
     },
     "minecraft:visual/sky_color": "#79a6ff",
-    "minecraft:visual/fog_color": "#bcd3e6"
+    "minecraft:visual/fog_color": "#bcd3e6",
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "minecraft:spore_blossom_air"
+        },
+        "probability": 0.0007
+      },
+      {
+        "particle": {
+          "type": "minecraft:firefly"
+        },
+        "probability": 0.0004
+      }
+    ]
   },
   "carvers": [
     "minecraft:cave",
@@ -172,6 +186,12 @@
         "weight": 3,
         "minCount": 1,
         "maxCount": 3
+      },
+      {
+        "type": "minecraft:frog",
+        "weight": 4,
+        "minCount": 2,
+        "maxCount": 3
       }
     ],
     "misc": [],
@@ -236,5 +256,6 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.7
+  "temperature": 0.7,
+  "creature_spawn_probability": 0.22
 }
