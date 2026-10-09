@@ -192,6 +192,12 @@
         "weight": 4,
         "minCount": 2,
         "maxCount": 3
+      },
+      {
+        "type": "minecraft:bee",
+        "weight": 3,
+        "minCount": 2,
+        "maxCount": 3
       }
     ],
     "misc": [],
