@@ -1,5 +1,6 @@
 package com.wildlands;
 
+import com.wildlands.felling.FellingManager;
 import com.wildlands.registry.ModBlocks;
 import com.wildlands.registry.ModFeatures;
 import com.wildlands.registry.ModItems;
@@ -18,5 +19,6 @@ public class Wildlands {
         ModBlocks.BLOCKS.register(context.getModBusGroup());
         ModItems.ITEMS.register(context.getModBusGroup());
         ModFeatures.FEATURES.register(context.getModBusGroup());
+        FellingManager.register(context);
     }
 }
